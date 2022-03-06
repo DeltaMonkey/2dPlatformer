@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://resources/tileMap.tres" type="TileSet" id=1]
+[ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/main.gd" type="Script" id=3]
+
+[node name="main" type="Node"]
+script = ExtResource( 3 )
+
+[node name="tileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 18, 18 )
+format = 1
+tile_data = PoolIntArray( 327682, 0, 0, 327696, 0, 0, 393221, 0, 0, 393229, 0, 0, 458755, 0, 0, 458767, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 524298, 0, 0, 524299, 0, 0, 524300, 0, 0, 524301, 0, 0 )
+
+[node name="player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 126, 144 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="fps" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
