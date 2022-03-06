@@ -25,7 +25,7 @@ func _process(delta):
 	if(moveVector.x == 0):
 		#lineer interpolasyon ile hızımızı 0'a yaklaştırıyoruz
 		velocity.x = lerp(velocity.x, 0, pow(2, -50 * delta))
-	
+		
 	# hızımızı(velocity) maxHorizontalSpeed ile sınırlandırıyoruz ki uçmayalım
 	velocity.x = clamp(velocity.x, -maxHorizontalSpeed, maxHorizontalSpeed)
 	
