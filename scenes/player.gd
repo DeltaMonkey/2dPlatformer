@@ -12,12 +12,7 @@ func _ready():
 	pass 
 	
 func _process(delta):
-	var moveVector = Vector2.ZERO
-	# sağ taraf +1 yönü
-	# sol taraf -1 yönü
-	# sağ için 1-0 = +1 yönü | sol için 0-1 = -1 | hareketsiz 1-1 = 0 
-	moveVector.x = Input.get_action_strength("right") - Input.get_action_strength("left")
-	moveVector.y = -1 if Input.is_action_just_pressed("jump") else 0
+	var moveVector = get_movement_vector()
 
 	velocity.x += moveVector.x * horizontalAcceleration * delta;
 	
@@ -40,4 +35,28 @@ func _process(delta):
 	else:
 		velocity.y += gravity * delta
 		
-	velocity = move_and_slide(velocity, Vector2.UP)	
+	velocity = move_and_slide(velocity, Vector2.UP)
+	
+	update_animation();
+
+func get_movement_vector():
+	var moveVector = Vector2.ZERO
+	# sağ taraf +1 yönü
+	# sol taraf -1 yönü
+	# sağ için 1-0 = +1 yönü | sol için 0-1 = -1 | hareketsiz 1-1 = 0 
+	moveVector.x = Input.get_action_strength("right") - Input.get_action_strength("left")
+	moveVector.y = -1 if Input.is_action_just_pressed("jump") else 0
+	return moveVector
+
+func update_animation():
+	var moveVector = get_movement_vector()
+	
+	if(!is_on_floor()):
+		$AnimatedSprite.play("jump")
+	elif(moveVector.x != 0):
+		$AnimatedSprite.play("run")
+	else:
+		$AnimatedSprite.play("idle")
+
+	if(moveVector.x != 0):
+		$AnimatedSprite.flip_h = true if moveVector.x > 0 else false
