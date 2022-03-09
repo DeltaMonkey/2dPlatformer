@@ -7,6 +7,7 @@ var maxHorizontalSpeed = 125
 var horizontalAcceleration = 2000
 var jumpSpeed = 360
 var jumpTerminationMultiplier = 3
+var hasDoubleJump = false
 
 func _ready():
 	pass 
@@ -25,8 +26,12 @@ func _process(delta):
 	velocity.x = clamp(velocity.x, -maxHorizontalSpeed, maxHorizontalSpeed)
 	
 	# kullanıcı -1 (yukarı) yönlü bir hareket yapmış(zıplamış) ve player hala yerde ise zıola
-	if(moveVector.y < 0 && ( is_on_floor() || !$CoyoteTimer.is_stopped())):
+	if(moveVector.y < 0 && ( is_on_floor() || !$CoyoteTimer.is_stopped() || hasDoubleJump)):
+											  # coyote timer durmadıysa  	# hasDoubleJump ise ilk zıpladığımda is_on_floor() true gelecek
+											  # zıplayabileyim				# 2. basışımda zıplayabileyim
 		velocity.y = moveVector.y * jumpSpeed
+		if(!is_on_floor()):
+			hasDoubleJump = false
 
 	# player havadaysa ama zıplama tuşuna basmıyorsa (elini hemen çekmişse)
 	if(velocity.y < 0 && !Input.is_action_pressed("jump")):
@@ -38,8 +43,13 @@ func _process(delta):
 	var wasOnFloor = is_on_floor();
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
-	if(wasOnFloor != is_on_floor()):
+	# eğer yerdeysem ve hareket ettiğimde yerden bağlantım kesilmişse
+	if(wasOnFloor && !is_on_floor()):
+		#coyote timer başlat
 		$CoyoteTimer.start();
+	
+	if(is_on_floor()):
+		hasDoubleJump = true
 	
 	update_animation();
 
