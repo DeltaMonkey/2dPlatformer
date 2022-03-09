@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://resources/tileMap.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/main.gd" type="Script" id=3]
 [ext_resource path="res://scenes/gameCamera.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/coin.tscn" type="PackedScene" id=5]
 
 [node name="main" type="Node"]
 script = ExtResource( 3 )
@@ -19,3 +20,6 @@ position = Vector2( 216, 144 )
 
 [node name="gameCamera" parent="." instance=ExtResource( 4 )]
 backgroundColor = Color( 0.87451, 0.964706, 0.960784, 1 )
+
+[node name="coin" parent="." instance=ExtResource( 5 )]
+position = Vector2( 72, 135 )
