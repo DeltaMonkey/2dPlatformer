@@ -22,7 +22,6 @@ func _process(delta):
 	# kameradan target posizyona lineer interpolasyon ile yaklaşıyoruz
 	# 0.2 deneyerek, sabit bir görüntü oluşturduğundan kafama göre verilmiştir :D
 	global_position = lerp(global_position, targetPoisitonSmoothed, 0.2);
-	print(global_position.y)
 	
 func _showFps():
 	$fps.text = str(Engine.get_frames_per_second())

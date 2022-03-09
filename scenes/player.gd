@@ -25,7 +25,7 @@ func _process(delta):
 	velocity.x = clamp(velocity.x, -maxHorizontalSpeed, maxHorizontalSpeed)
 	
 	# kullanıcı -1 (yukarı) yönlü bir hareket yapmış(zıplamış) ve player hala yerde ise zıola
-	if(moveVector.y < 0 && is_on_floor()):
+	if(moveVector.y < 0 && ( is_on_floor() || !$CoyoteTimer.is_stopped())):
 		velocity.y = moveVector.y * jumpSpeed
 
 	# player havadaysa ama zıplama tuşuna basmıyorsa (elini hemen çekmişse)
@@ -34,8 +34,12 @@ func _process(delta):
 		velocity.y += gravity * jumpTerminationMultiplier * delta
 	else:
 		velocity.y += gravity * delta
-		
+	
+	var wasOnFloor = is_on_floor();
 	velocity = move_and_slide(velocity, Vector2.UP)
+	
+	if(wasOnFloor != is_on_floor()):
+		$CoyoteTimer.start();
 	
 	update_animation();
 
@@ -58,5 +62,8 @@ func update_animation():
 	else:
 		$AnimatedSprite.play("idle")
 
+	# eğer kullanıcı sağa sola gitmeye çalışmıyorsa son döndüğü yerde kalmasını sağlıyoruz 
 	if(moveVector.x != 0):
+		# karakter sprite'ım default olarak sola baktığı için sola gittim zaman flip yapmama gerek yok 
+		# sağ tarafa gittiğimde flip etmeme gerek var
 		$AnimatedSprite.flip_h = true if moveVector.x > 0 else false
