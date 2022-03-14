@@ -9,8 +9,13 @@ var jumpSpeed = 360
 var jumpTerminationMultiplier = 3
 var hasDoubleJump = false
 
+# playerın ölümünün dış objelere haber verilmesi için bir sinyal oluşturduk
+# emit ile died sinyalini tetikleyeceğiz connect olmuş objeler buna karşılık 
+# bir hareket yapabilecek
+signal died
+
 func _ready():
-	pass 
+	$HazardArea.connect("area_entered", self, "on_hazard_area_entered")
 	
 func _process(delta):
 	var moveVector = get_movement_vector()
@@ -77,3 +82,8 @@ func update_animation():
 		# karakter sprite'ım default olarak sola baktığı için sola gittim zaman flip yapmama gerek yok 
 		# sağ tarafa gittiğimde flip etmeme gerek var
 		$AnimatedSprite.flip_h = true if moveVector.x > 0 else false
+
+# hazard area ya girildiğinde died sinyali dinleyicilere gönderilecek
+func on_hazard_area_entered(area2d):
+	emit_signal("died")
+	
