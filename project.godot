@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="2d Platformer Course 2"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/BaseLevel.tscn"
 config/icon="res://icon.png"
 
 [display]
@@ -46,6 +46,7 @@ jump={
 
 [layer_names]
 
+2d_physics/layer_30="ENEMY_GOAL"
 2d_physics/layer_31="PICKUP"
 2d_physics/layer_32="HAZARD"
 
